@@ -7,16 +7,30 @@ cmd => pour voir les migrations
     + symfony console doctrine:migrations:migrate prev   //[pour annuler une migration]
 
 ---------------------------------------------------------------------------
-utilisation du bundle theofidry
+Live 18/
+
+# utilisation du bundle theofidry
     https://github.com/theofidry/PsyshBundle
 cmd
     + composer require --dev theofidry/psysh-bundle
     + symfony console psysh
     + symfony console security:hash-password
-
-
   Notes:
     tres pratique la libriarie psysh
     utlistation password hash security
+ ------------------------------------------------
+Live 19/
+cmd
+    Cmd pour supprimer un bundle :composer remove <nom du bundle>
+    + composer remove theofidry/psysh-bundle
+    on peut injecter via une action d'un controller
+    EntityManager ou le Ripository
+---------------------------------------------------------
+Live 20
+ -Ajout d'un Trait (nommer Timestampable)
+  Entity/Traits
+   [@ORM\HasLifecyleCallbacks]
+   Bundle Doctrine Behaviors
+   installer easyadmin
 
 
