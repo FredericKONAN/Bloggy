@@ -18,7 +18,7 @@ class AccueilController extends AbstractController
         $user->setEmail('superdev@gmail.com');
         $user->setPassword('$2y$13$H.j2pwe4poYsXHehCDvZ/eO53wtkT5d12CyPI.WeT2MDIlgZPjqG6');
 
-        $utilisateurRepository->save($user, true);
+//        $utilisateurRepository->save($user, true);
 
         return $this->render('accueil/index.html.twig', [
             'controller_name' => 'AccueilController',
