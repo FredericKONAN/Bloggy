@@ -5,3 +5,18 @@ Date: [/29/06/2023]
 cmd => pour voir les migrations
     + symfony console doctrine:migrations:list
     + symfony console doctrine:migrations:migrate prev   //[pour annuler une migration]
+
+---------------------------------------------------------------------------
+utilisation du bundle theofidry
+    https://github.com/theofidry/PsyshBundle
+cmd
+    + composer require --dev theofidry/psysh-bundle
+    + symfony console psysh
+    + symfony console security:hash-password
+
+
+  Notes:
+    tres pratique la libriarie psysh
+    utlistation password hash security
+
+
