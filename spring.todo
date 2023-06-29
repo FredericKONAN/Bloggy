@@ -1,0 +1,7 @@
+Date: [/29/06/2023]
+1. Ajout de champ a notre table utilisateur
+    - createdAt et updateAt
+
+cmd => pour voir les migrations
+    + symfony console doctrine:migrations:list
+    + symfony console doctrine:migrations:migrate prev   //[pour annuler une migration]
