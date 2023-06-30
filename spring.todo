@@ -32,5 +32,11 @@ Live 20
    [@ORM\HasLifecyleCallbacks]
    Bundle Doctrine Behaviors
    installer easyadmin
+   fa fa-file-text
+   yield MenuItem :: section section
+   nvm
+
+
+
 
 
