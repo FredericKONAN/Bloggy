@@ -41,6 +41,8 @@ Live 20
     + symfony console debug:container <nom du service>
         exp: symfony console debug:container twig
 
+        securiser une route: Isgranted ou denyAccessGranted
+
 
 
 
