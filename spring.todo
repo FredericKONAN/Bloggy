@@ -36,6 +36,11 @@ Live 20
    yield MenuItem :: section section
    nvm
 
+   Auniveau de symfony tout est gerer par des services
+   cmd pour avoir des infos sur un service en symfony
+    + symfony console debug:container <nom du service>
+        exp: symfony console debug:container twig
+
 
 
 
