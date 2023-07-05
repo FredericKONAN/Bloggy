@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccueilController!{% endblock %}
+{% block title %}Blog{% endblock %}
 
 {% block body %}
     {% for post in posts %}
         <article>
-           <h1> {{ post.titre }}</h1>
+            <a href="{{ path('app_post_show', {slug: post.slug}) }}"><h1> {{ post.titre }}</h1></a>
            <p> {{ post.contenu }}</p>
         </article>
     {% endfor %}
