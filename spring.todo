@@ -47,5 +47,5 @@ Live 20
 
 
 
-
-
+Afficher l'auteur, la date de publication et tronquer le contenu de l'article sur la page d'accueil
+Utilisez le filtre nl2br et la balise HTML de temps

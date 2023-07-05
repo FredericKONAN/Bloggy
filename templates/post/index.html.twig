@@ -6,7 +6,13 @@
     {% for post in posts %}
         <article>
             <a href="{{ path('app_post_show', {slug: post.slug}) }}"><h1> {{ post.titre }}</h1></a>
-           <p> {{ post.contenu }}</p>
+            <h5 class="text-muted">
+                Publié le <time datetime="{{ post.publishedAt|date('Y-m-d H:i:s') }} ">
+                  {{ post.publishedAt|date }}
+                </time>
+                par  {{ post.author }}
+            </h5>
+           <p> {{ post.contenu|u.truncate(50, '...', false) }}</p>
         </article>
     {% endfor %}
 
