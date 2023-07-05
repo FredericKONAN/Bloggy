@@ -35,13 +35,15 @@ Live 20
    fa fa-file-text
    yield MenuItem :: section section
    nvm
-
    Auniveau de symfony tout est gerer par des services
    cmd pour avoir des infos sur un service en symfony
     + symfony console debug:container <nom du service>
         exp: symfony console debug:container twig
 
         securiser une route: Isgranted ou denyAccessGranted
+-------------------------------------------------------------------------
+ TP1: rediriger l'utilisateur vers la page d'accueil si il est deja connecte
+      et saisie semi-automatique pour l'auteur du message.
 
 
 

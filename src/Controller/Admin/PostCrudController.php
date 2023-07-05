@@ -22,8 +22,9 @@ class PostCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setAutofocusSearch('query')
-            ->setSearchFields(['publishedAt'])
+            ->setAutofocusSearch()
+            ->setSearchFields(['titre'])
+            ->setDefaultSort(['publishedAt'=> 'DESC', 'titre'=>'ASC'])
         ;
     }
 
@@ -42,7 +43,7 @@ class PostCrudController extends AbstractCrudController
             SlugField::new('slug', 'Slug')->setTargetFieldName('titre'),
             TextareaField::new('contenu', 'Description')->hideOnIndex(),
             DateTimeField::new('publishedAt', 'Date de publication'),
-            AssociationField::new('author', 'Auteur'),
+            AssociationField::new('author', 'Auteur')->autocomplete(),
         ];
     }
 
