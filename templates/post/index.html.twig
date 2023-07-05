@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AccueilController!{% endblock %}
+
+{% block body %}
+    {% for post in posts %}
+        <article>
+           <h1> {{ post.titre }}</h1>
+           <p> {{ post.contenu }}</p>
+        </article>
+    {% endfor %}
+
+{% endblock %}
