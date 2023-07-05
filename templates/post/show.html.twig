@@ -6,7 +6,7 @@
 
         <h1>{{ post.titre }}</h1>
         <h5 class="text-muted">
-                Publié le <time datetime="{{ post.publishedAt|date('Y-m-d H:i:s') }} ">
+                Publié le <time datetime="{{ post.publishedAt|date('Y-m-d H:i') }} ">
                         {{ post.publishedAt|date }}
                 </time>
                 par  {{ post.author }}
