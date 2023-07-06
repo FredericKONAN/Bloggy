@@ -10,17 +10,21 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PostController extends AbstractController
 {
+    public function __construct(private PostRepository $postRepository){}
+
     #[Route('/', name: 'app_accueil')]
-    public function index(PostRepository $postRepository): Response
+    public function index(): Response
     {
-        $posts = $postRepository->findAllPublishedOrdered();
+        $posts = $this->postRepository->findAllPublishedOrdered();
 
         return $this->render('post/index.html.twig', compact('posts'));
     }
 
-    #[Route('/post/{slug}', name: 'app_post_show')]
-    public function show(Post $post): Response
+    #[Route('/post/{year}/{month}/{day}/{slug}', name: 'app_post_show')]
+    public function show(int $year, int $month, int $day, string $slug): Response
     {
+        $post = $this->postRepository->findOneByPublishedDateAnSlug($year, $month,$day,$slug);
+
         return $this->render('post/show.html.twig', compact('post'));
     }
 }
