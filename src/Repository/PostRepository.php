@@ -41,14 +41,20 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAllPublishedOrdered(): Collection
+    public function findAllPublishedOrdered(): array
     {
-        $criteria = (new Criteria)
-            ->andWhere(Criteria::expr()->neq('publishedAt', null))
-            ->orderBy(['publishedAt'=> 'DESC'])
-        ;
-
-       return  $this->matching($criteria);
+        return $this->createQueryBuilder('p')
+                ->andWhere( 'p.publishedAt IS NOT NULL')
+                ->orderBy('p.publishedAt', 'DESC')
+                ->getQuery()
+                ->getResult()
+            ;
+//        $criteria = (new Criteria)
+//            ->andWhere(Criteria::expr()->neq('publishedAt', null))
+//            ->orderBy(['publishedAt'=> 'DESC'])
+//        ;
+//
+//       return  $this->matching($criteria);
 
     }
 
