@@ -65,10 +65,12 @@ class PostRepository extends ServiceEntityRepository
             ->andWhere('MONTH(p.publishedAt) = :month')
             ->andWhere('DAY(p.publishedAt) = :day')
             ->andWhere('p.slug = :slug')
-            ->setParameter('year', $year)
-            ->setParameter('month', $month)
-            ->setParameter('day', $day)
-            ->setParameter('slug', $slug)
+            ->setParameters([
+                'year' => $year,
+                'month' => $month,
+                'day' => $day,
+                'slug' => $slug,
+            ])
             ->getQuery()
             ->getOneOrNullResult()
         ;

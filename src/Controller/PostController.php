@@ -31,4 +31,5 @@ class PostController extends AbstractController
 
         return $this->render('post/show.html.twig', compact('post'));
     }
+
 }
