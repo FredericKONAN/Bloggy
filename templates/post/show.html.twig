@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title post.titre %}
+{% block title 'Blog'  %}
 
 {% block body %}
-
-        <h1>{{ post.titre }}</h1>
-        <h5 class="text-muted">
-                Publié le <time datetime="{{ post.publishedAt|date('Y-m-d H:i') }} ">
-                        {{ post.publishedAt|date }}
-                </time>
-                par  {{ post.author }}
-        </h5>
-        <p>{{ post.contenu|nl2br }}</p>
-
+        {% if post is defined and post is not null %}
+                <h1>{{ post.titre }}</h1>
+                <h5 class="text-muted">
+                        Publié le <time datetime="{{ post.publishedAt|date('Y-m-d H:i') }} ">
+                                {{ post.publishedAt|date }}
+                        </time>
+                        par  {{ post.author }}
+                </h5>
+                <p>{{ post.contenu|nl2br }}</p>
+        {% endif %}
 {% endblock %}
