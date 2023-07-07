@@ -3,7 +3,8 @@
 {% block title %}Blog{% endblock %}
 
 {% block body %}
-    {% for post in posts %}
+    <h1> Mon Blog ({{ pagination.getTotalItemCount }} articles) </h1>
+    {% for post in pagination %}
         <article>
             <a href="{{ path('app_post_show',post.getPathParams ) }}"><h1> {{ post.titre }}</h1></a>
             <h5 class="text-muted">
@@ -15,5 +16,9 @@
            <p> {{ post.contenu|u.truncate(50, '...', false) }}</p>
         </article>
     {% endfor %}
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 
 {% endblock %}
