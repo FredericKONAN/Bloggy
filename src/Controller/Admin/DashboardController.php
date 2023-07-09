@@ -19,7 +19,7 @@ class DashboardController extends AbstractDashboardController
 
 
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/admin', name: 'admin')]
+    #[Route('%app.admin.path%', name: 'admin')]
     public function index(): Response
     {
 
