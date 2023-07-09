@@ -20,7 +20,7 @@ class PostController extends AbstractController
         $query = $this->postRepository->getAllPublishedOrderedQuery();
         $numeroDePage  = $request->query->getInt('page', 1);
 
-        $pagination = $paginator->paginate($query, $numeroDePage, 3);
+        $pagination = $paginator->paginate($query, $numeroDePage, Post::NBRE_ELEMENTS_PAR_PAGE);
 
         return $this->render('post/index.html.twig', compact('pagination'));
     }

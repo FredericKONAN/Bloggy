@@ -18,6 +18,8 @@ class Post
 {
     use Timestampable;
 
+    public const  NBRE_ELEMENTS_PAR_PAGE = 2;
+
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
