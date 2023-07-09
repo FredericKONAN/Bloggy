@@ -3,7 +3,6 @@
 {% block title %}Blog{% endblock %}
 
 {% block body %}
-    <h1> Mon Blog ({{ pagination.getTotalItemCount }} articles) </h1>
     {% for post in pagination %}
         <article>
             <a href="{{ path('app_post_show',post.getPathParams ) }}"><h1> {{ post.titre }}</h1></a>
@@ -13,7 +12,7 @@
                 </time>
                 par  {{ post.author }}
             </h5>
-           <p> {{ post.contenu|u.truncate(50, '...', false) }}</p>
+           <p class="text-muted fst-italic"> {{ post.contenu|u.truncate(50, '...', false) }}</p>
         </article>
     {% endfor %}
 
