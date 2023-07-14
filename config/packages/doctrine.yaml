@@ -8,9 +8,8 @@ doctrine:
     orm:
         dql:
             datetime_functions:
-                year: DoctrineExtensions\Query\Postgresql\Year
-                month: DoctrineExtensions\Query\Postgresql\Month
-                day: DoctrineExtensions\Query\Postgresql\Day
+                date: DoctrineExtensions\Query\Postgresql\Date
+
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
         report_fields_where_declared: true

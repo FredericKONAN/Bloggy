@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Requirement\Requirement;
 
 class PostController extends AbstractController
 {
@@ -29,19 +30,17 @@ class PostController extends AbstractController
     }
 
     #[Route(
-        '/post/{year}/{month}/{day}/{slug}',
+        '/post/{date}/{slug}',
         name: 'app_post_show',
         requirements: [
-            'year' => '[0-9]{4}',
-            'month'=> '[0-9]{2}',
-            'day'=> '[0-9]{2}',
-            'slug'=> '[a-z0-9\-]+',
+            'date' => Requirement::DATE_YMD,
+            'slug'=> Requirement::ASCII_SLUG,
         ],
         methods: ['GET'],
     )]
-    public function show(int $year, int $month, int $day, string $slug): Response
+    public function show(string $date, string $slug): Response
     {
-        $post = $this->postRepository->findOneByPublishedDateAnSlug($year, $month,$day,$slug);
+        $post = $this->postRepository->findOneByPublishedDateAnSlug($date,$slug);
 
         if (is_null($post)){
             throw $this->createNotFoundException('Post not found');
