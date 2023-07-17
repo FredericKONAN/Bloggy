@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -23,22 +24,23 @@ class SharePostType extends AbstractType
                     new Length(['min'=> 3])
                 ],
             ])
-            ->add('mail_expediteur', EmailType::class, [
+            ->add('mail_expediteur', TextType::class, [
                 'label' => 'Email',
                 'constraints' => [
                     new NotBlank(),
-                    new Length(['min'=> 4, 'max'=> 100])
+                    new  Email(['mode' => Email::VALIDATION_MODE_HTML5])
                 ],
             ])
-            ->add('mail_destinateur', EmailType::class, [
+            ->add('mail_destinateur', TextType::class, [
                 'label' => 'Mail de votre ami(e)',
                 'constraints' => [
                     new NotBlank(),
-                    new Length(['min'=> 4, 'max'=> 100])
+                    new  Email(['mode' => Email::VALIDATION_MODE_HTML5]),
                 ],
             ])
             ->add('commentaires', TextareaType::class, [
-                'label'=> ' Commentaire'
+                'label'=> ' Commentaire',
+                'help' => 'Laissez-le vide si vous le souhaitez (facultatif).',
             ])
         ;
     }
