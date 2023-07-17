@@ -61,6 +61,7 @@ class PostController extends AbstractController
     )]
     public function sharePost(Request $request,string $date, string $slug){
 
+        $post = $this->postRepository->findOneByPublishedDateAnSlug($date,$slug);
         $form = $this->createForm(SharePostType::class);
 
         $form->handleRequest($request);
@@ -69,9 +70,8 @@ class PostController extends AbstractController
         {
            dd( $form->getData());
         }
-//        dd($date, $slug);
 
-        return $this->render('post/share.html.twig', compact('form'));
+        return $this->render('post/share.html.twig', compact('form', 'post'));
     }
 
 }

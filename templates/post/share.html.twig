@@ -6,7 +6,7 @@
     {% if form is defined and form is not null %}
        {{ form_start(form) }}
             {{ form_widget(form) }}
-        <button type="submit">Partage l'article</button>
+        <button type="submit" class="btn btn-primary w-100" formnovalidate>Partage l'article</button>
        {{ form_end(form) }}
     {% endif %}
 {% endblock %}
