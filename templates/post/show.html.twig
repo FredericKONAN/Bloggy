@@ -3,6 +3,7 @@
 {% block title 'Blog'  %}
 
 {% block body %}
+        <h1 class="H5">Mon super article</h1>
         {% if post is defined and post is not null %}
                 <h1>{{ post.titre }}</h1>
                 <h5 class="text-muted">
@@ -14,5 +15,5 @@
                 <p>{{ post.contenu|nl2br }}</p>
         {% endif %}
 
-        <a href="{{ path('app_accueil') }}">Go back to homepage</a>
+        <a href="{{ path('app_post_share', post.getPathParams) }}">Partage ce article</a>
 {% endblock %}

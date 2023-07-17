@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Form\SharePostType;
 use App\Repository\PostRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -47,6 +48,30 @@ class PostController extends AbstractController
         }
 
         return $this->render('post/show.html.twig', compact('post'));
+    }
+
+    #[Route(
+        '/post/{date}/{slug}/partage',
+        name: 'app_post_share',
+        requirements: [
+            'date' => Requirement::DATE_YMD,
+            'slug'=> Requirement::ASCII_SLUG,
+        ],
+        methods: ['GET', 'POST'],
+    )]
+    public function sharePost(Request $request,string $date, string $slug){
+
+        $form = $this->createForm(SharePostType::class);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+           dd( $form->getData());
+        }
+//        dd($date, $slug);
+
+        return $this->render('post/share.html.twig', compact('form'));
     }
 
 }

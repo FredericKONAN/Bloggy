@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Blog'  %}
+
+{% block body %}
+    {% if form is defined and form is not null %}
+       {{ form_start(form) }}
+            {{ form_widget(form) }}
+        <button type="submit">Partage l'article</button>
+       {{ form_end(form) }}
+    {% endif %}
+{% endblock %}
