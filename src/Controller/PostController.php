@@ -9,6 +9,9 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 
@@ -59,7 +62,18 @@ class PostController extends AbstractController
         ],
         methods: ['GET', 'POST'],
     )]
-    public function sharePost(Request $request,string $date, string $slug){
+    public function sharePost(Request $request, MailerInterface $mailer,string $date, string $slug){
+
+
+        $mail =  (new Email())
+                ->from('admin@bloggy.wip')
+                ->to('test@gmail.com')
+                ->subject("Ce ci est l'objet de notre email.")
+                ->text('Le contenu de notre email.')
+                ->html('<p>See Twig integration for better HTML integration!</p>')
+        ;
+
+        $mailer->send($mail);
 
         $post = $this->postRepository->findOneByPublishedDateAnSlug($date,$slug);
         $form = $this->createForm(SharePostType::class);
