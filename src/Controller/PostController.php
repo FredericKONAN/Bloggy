@@ -11,8 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Requirement\Requirement;
 
 class PostController extends AbstractController
@@ -65,16 +67,6 @@ class PostController extends AbstractController
     public function sharePost(Request $request, MailerInterface $mailer,string $date, string $slug){
 
 
-        $mail =  (new Email())
-                ->from('admin@bloggy.wip')
-                ->to('test@gmail.com')
-                ->subject("Ce ci est l'objet de notre email.")
-                ->text('Le contenu de notre email.')
-                ->html('<p>See Twig integration for better HTML integration!</p>')
-        ;
-
-        $mailer->send($mail);
-
         $post = $this->postRepository->findOneByPublishedDateAnSlug($date,$slug);
         $form = $this->createForm(SharePostType::class);
 
@@ -82,7 +74,36 @@ class PostController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-           dd( $form->getData());
+           $data=  $form->getData();
+
+            $postUrl = $this->generateUrl(
+                'app_post_show',
+                $post->getPathParams(),
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
+
+           $sujet = sprintf('%s vous recommande de lire "%s"', $data['nom_expediteur'], $post->getTitre());
+           $message = sprintf(
+
+               "Lit \"%s\" a l'adresse suivant %s.\n\n voici le commentaire de %s < %s >",
+               $post->getTitre(),
+               $postUrl,
+               $data['nom_expediteur'],
+               $data['commentaires'],
+
+           );
+
+            $mail =  (new Email())
+                ->from(new Address('hello@bloggy.wip', 'Bloggy'))
+                ->to($data['mail_destinateur'])
+                ->subject($sujet)
+                ->text($message)
+            ;
+
+            $mailer->send($mail);
+
+            return $this->redirectToRoute('app_accueil');
+
         }
 
         return $this->render('post/share.html.twig', compact('form', 'post'));
