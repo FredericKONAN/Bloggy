@@ -18,12 +18,7 @@
                 <h1>⭐ <a href="{{ path('app_accueil') }}">Mon Blog</a></h1>
             </header>
             <hr class="text-secondary">
-
-            {% for message in app.flashes('success') %}
-                <div class="alert alert-success" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
+            {% include('layouts/partiels/__flash_message.html.twig') %}
 
             <div class="row">
                 <main role="main" class="col-md-6">
