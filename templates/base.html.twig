@@ -19,6 +19,12 @@
             </header>
             <hr class="text-secondary">
 
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
             <div class="row">
                 <main role="main" class="col-md-6">
                     {% block body %}{% endblock %}

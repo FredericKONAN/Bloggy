@@ -102,6 +102,8 @@ class PostController extends AbstractController
 
             $mailer->send($mail);
 
+            $this->addFlash('success', "l'article a ete partage avec succes avec votre amie.");
+
             return $this->redirectToRoute('app_accueil');
 
         }
