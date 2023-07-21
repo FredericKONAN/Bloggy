@@ -6,13 +6,12 @@ use App\Entity\Post;
 use App\Form\SharePostType;
 use App\Repository\PostRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Requirement\Requirement;
@@ -83,21 +82,26 @@ class PostController extends AbstractController
             );
 
            $sujet = sprintf('%s vous recommande de lire "%s"', $data['nom_expediteur'], $post->getTitre());
-           $message = sprintf(
+//           $message = sprintf(
+//
+//               "Lit \"%s\" a l'adresse suivant %s.\n\n voici le commentaire de %s < %s >",
+//               $post->getTitre(),
+//               $postUrl,
+//               $data['nom_expediteur'],
+//               $data['commentaires'],
+//
+//           );
 
-               "Lit \"%s\" a l'adresse suivant %s.\n\n voici le commentaire de %s < %s >",
-               $post->getTitre(),
-               $postUrl,
-               $data['nom_expediteur'],
-               $data['commentaires'],
-
-           );
-
-            $mail =  (new Email())
+            $mail =  (new TemplatedEmail())
                 ->from(new Address('hello@bloggy.wip', 'Bloggy'))
                 ->to($data['mail_destinateur'])
                 ->subject($sujet)
-                ->text($message)
+                ->htmlTemplate('email/post/share.html.twig')
+                ->context([
+                    'nom_expediteur' => $data['nom_expediteur'],
+                    'post' => $post,
+                    'commentaire'=> $data['commentaires'],
+                ])
             ;
 
             $mailer->send($mail);
