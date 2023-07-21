@@ -1,7 +1,12 @@
 
 <h2>{{ nom_expediteur }} te recommande de lire ce article: "{{ post.titre }}"</h2>
 
-<p>Lis l'article a l'adress suivante: <a href="#">Lien article</a></p>
+<p>
+    Lis l'article a l'adress suivante:
+    <a href=" {{ url('app_post_show', post.getPathParams()) }}">
+        {{ url('app_post_show', post.getPathParams()) }}
+    </a>
+</p>
 
 {% if commentaire is defined and commentaire is not null  %}
     <h2> Commentaire de  {{ nom_expediteur }} : </h2>

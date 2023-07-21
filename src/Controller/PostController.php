@@ -75,11 +75,11 @@ class PostController extends AbstractController
         {
            $data=  $form->getData();
 
-            $postUrl = $this->generateUrl(
-                'app_post_show',
-                $post->getPathParams(),
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
+//            $postUrl = $this->generateUrl(
+//                'app_post_show',
+//                $post->getPathParams(),
+//                UrlGeneratorInterface::ABSOLUTE_URL
+//            );
 
            $sujet = sprintf('%s vous recommande de lire "%s"', $data['nom_expediteur'], $post->getTitre());
 //           $message = sprintf(
@@ -93,7 +93,12 @@ class PostController extends AbstractController
 //           );
 
             $mail =  (new TemplatedEmail())
-                ->from(new Address('hello@bloggy.wip', 'Bloggy'))
+                ->from(
+                    new Address(
+                        $this->getParameter('app.contact.email'),
+                        $this->getParameter('app.name'),
+                    ))
+
                 ->to($data['mail_destinateur'])
                 ->subject($sujet)
                 ->htmlTemplate('email/post/share.html.twig')
