@@ -6,16 +6,23 @@ use App\Entity\Post;
 use App\Entity\Utilisateur;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AppFixtures extends Fixture
 {
+    public function __construct(private UserPasswordHasherInterface $passWOrdHasher, private SluggerInterface $slug){}
+
     public function load(ObjectManager $manager): void
     {
+        $faker = Factory::create("fr_FR");
+
         $user = new Utilisateur;
 
         $user->setNom('Super codeur');
         $user->setEmail('supercodeur@gmail.com');
-        $user->setPassword('$2y$13$AIO5fpMV9ka1rBJ.tjX2WONrfUAYpZgN5OkvdZ6oJtrHKozCVEUmC');
+        $user->setPassword($this->passWOrdHasher->hashPassword($user, 'secret'));
         $manager->persist($user);
 
         $admin = new Utilisateur;
@@ -23,20 +30,21 @@ class AppFixtures extends Fixture
         $admin->setNom('Mister Admin');
         $admin->setEmail('admin@bloggy.wip');
         $admin->setRoles(['ROLE_ADMIN']);
-        $admin->setPassword('$2y$13$enlzkwp4W.TuuYWH5DLO8eHmYOUl4yPyheiSOa6eLLE5n8GLOwa26');
+        $admin->setPassword($this->passWOrdHasher->hashPassword($admin, 'secret'));
         $manager->persist($admin);
 
         // create 10 articles! Bam!
         for ($i = 1; $i <= 10; $i++) {
             $post = new Post;
-            $post->setTitre('Article'.$i);
-            $post->setSlug('article-'.$i);
-            $post->setContenu('Once your fixtures have been written, load them by executing this command');
+            $post->setTitre($titre = $faker->unique()->sentence(4));
+            $post->setSlug($this->slug->slug(mb_strtolower($titre)));
+            $post->setContenu($faker->paragraph(10));
             $post->setPublishedAt(
-                mt_rand(1,10) >=5
-                ? new \DateTimeImmutable(sprintf('-%d days', mt_rand(10, 50) )): null
+                $faker->boolean(50)
+                ?  \DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-50 days', '-10 days'))
+                    : null
                 );
-            $post->setAuthor(mt_rand(1,10) >=5 ? $user:$admin);
+            $post->setAuthor($faker->boolean(50) ? $user:$admin);
             $manager->persist($post);
         }
 
