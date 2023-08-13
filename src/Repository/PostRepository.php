@@ -61,6 +61,7 @@ class PostRepository extends ServiceEntityRepository
     public function findOneByPublishedDateAnSlug(string $date, string $slug)
     {
         return $this->createQueryBuilder('p')
+            ->andWhere('p.publishedAt IS NOT NULL')
             ->andWhere('DATE(p.publishedAt) = :date')
             ->andWhere('p.slug = :slug')
             ->setParameters([

@@ -43,14 +43,14 @@ class PostController extends AbstractController
         ],
         methods: ['GET'],
     )]
-    public function show(string $date, string $slug): Response
+    #[Entity('post',expr: 'repository.findOneByPublishedDateAnSlug(date, slug)')]
+    public function show(Post $post): Response
     {
-        $post = $this->postRepository->findOneByPublishedDateAnSlug($date,$slug);
-
-        if (is_null($post)){
-            throw $this->createNotFoundException('Post not found');
-        }
-
+//        $post = $this->postRepository->findOneByPublishedDateAnSlug($date,$slug);
+//
+//        if (is_null($post)){
+//            throw $this->createNotFoundException('Post not found');
+//        }
         return $this->render('post/show.html.twig', compact('post'));
     }
 
@@ -63,10 +63,11 @@ class PostController extends AbstractController
         ],
         methods: ['GET', 'POST'],
     )]
-    public function sharePost(Request $request, MailerInterface $mailer,string $date, string $slug){
+    #[Entity('post',expr: 'repository.findOneByPublishedDateAnSlug(date, slug)')]
+    public function sharePost(Request $request, MailerInterface $mailer, Post $post){
 
 
-        $post = $this->postRepository->findOneByPublishedDateAnSlug($date,$slug);
+//        $post = $this->postRepository->findOneByPublishedDateAnSlug($date,$slug);
         $form = $this->createForm(SharePostType::class);
 
         $form->handleRequest($request);
