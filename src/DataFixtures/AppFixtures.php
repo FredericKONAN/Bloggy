@@ -36,8 +36,8 @@ class AppFixtures extends Fixture
         // create 10 articles! Bam!
         for ($i = 1; $i <= 10; $i++) {
             $post = new Post;
-            $post->setTitre($titre = $faker->unique()->sentence(4));
-            $post->setSlug($this->slug->slug(mb_strtolower($titre)));
+            $post->setTitre( $faker->unique()->sentence(4));
+//            $post->setSlug($this->slug->slug(mb_strtolower($titre)));
             $post->setContenu($faker->paragraph(10));
             $post->setPublishedAt(
                 $faker->boolean(50)
