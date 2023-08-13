@@ -35,15 +35,15 @@ class PostController extends AbstractController
     }
 
     #[Route(
-        '/post/{date}/{slug}',
+        '/post/{slug}',
         name: 'app_post_show',
         requirements: [
-            'date' => Requirement::DATE_YMD,
+//            'date' => Requirement::DATE_YMD,
             'slug'=> Requirement::ASCII_SLUG,
         ],
         methods: ['GET'],
     )]
-    #[Entity('post',expr: 'repository.findOneByPublishedDateAnSlug(date, slug)')]
+//    #[Entity('post',expr: 'repository.findOneByPublishedDateAnSlug(date, slug)')]
     public function show(Post $post): Response
     {
 //        $post = $this->postRepository->findOneByPublishedDateAnSlug($date,$slug);
@@ -55,15 +55,15 @@ class PostController extends AbstractController
     }
 
     #[Route(
-        '/post/{date}/{slug}/partage',
+        '/post/{slug}/partage',
         name: 'app_post_share',
         requirements: [
-            'date' => Requirement::DATE_YMD,
+//            'date' => Requirement::DATE_YMD,
             'slug'=> Requirement::ASCII_SLUG,
         ],
         methods: ['GET', 'POST'],
     )]
-    #[Entity('post',expr: 'repository.findOneByPublishedDateAnSlug(date, slug)')]
+//    #[Entity('post',expr: 'repository.findOneByPublishedDateAnSlug(date, slug)')]
     public function sharePost(Request $request, MailerInterface $mailer, Post $post){
 
 

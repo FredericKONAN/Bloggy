@@ -14,5 +14,5 @@
                 <p>{{ post.contenu|nl2br }}</p>
         {% endif %}
 
-        <a href="{{ path('app_post_share', post.getPathParams) }}">Partage ce article</a>
+        <a href="{{ path('app_post_share', { slug: post.slug }) }}">Partage ce article</a>
 {% endblock %}
