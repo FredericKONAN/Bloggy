@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Form\CommentType;
 use App\Form\SharePostType;
 use App\Repository\PostRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -44,14 +45,21 @@ class PostController extends AbstractController
         methods: ['GET'],
     )]
 //    #[Entity('post',expr: 'repository.findOneByPublishedDateAnSlug(date, slug)')]
-    public function show(Post $post): Response
+    public function show(Request $request,Post $post): Response
     {
+        $commentForm = $this->createForm(CommentType::class);
+
+        $commentForm->handleRequest($request);
+
+    if($commentForm->isSubmitted() && $commentForm->isValid()){
+        dd($comment = $commentForm->getData());
+    }
 //        $post = $this->postRepository->findOneByPublishedDateAnSlug($date,$slug);
 //
 //        if (is_null($post)){
 //            throw $this->createNotFoundException('Post not found');
 //        }
-        return $this->render('post/show.html.twig', compact('post'));
+        return $this->render('post/show.html.twig', compact('post', 'commentForm'));
     }
 
     #[Route(
