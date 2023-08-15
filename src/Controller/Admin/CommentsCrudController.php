@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Comments;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -17,6 +19,24 @@ class CommentsCrudController extends AbstractCrudController
     public static function getEntityFqcn(): string
     {
         return Comments::class;
+    }
+
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setSearchFields(['name', 'email', 'contenu'])
+            ->setDefaultSort(['createdAt'=> 'DESC'])
+            ;
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        //Ajout de filtres
+        return $filters->add('isActive')
+            ->add('createdAt')
+            ->add('post')
+            ;
     }
 
 
