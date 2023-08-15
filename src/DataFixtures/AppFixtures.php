@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Comments;
 use App\Entity\Post;
 use App\Entity\Utilisateur;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -46,7 +47,19 @@ class AppFixtures extends Fixture
                 );
             $post->setAuthor($faker->boolean(50) ? $user:$admin);
             $manager->persist($post);
+
+            for ($j = 1; $j <= $faker->numberBetween(1,5); $j++) {
+                $comment = new Comments;
+
+                $comment->setName($faker->name());
+                $comment->setEmail($faker->email());
+                $comment->setContenu($faker->paragraph());
+                $comment->setIsActive($faker->boolean(90));
+                $comment->setPost($post);
+                $manager->persist($comment);
+            }
         }
+
 
         $manager->flush();
 
