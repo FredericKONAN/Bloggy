@@ -14,5 +14,22 @@
                 <p>{{ post.contenu|nl2br }}</p>
         {% endif %}
 
-        <a href="{{ path('app_post_share', { slug: post.slug }) }}">Partage ce article</a>
+        <a href="{{ path('app_post_share', {id: post.id, slug: post.slug }) }}">Partage ce article</a>
+        <hr>
+
+        <section>
+              <h2>{{ post.comments|length }} commentaires</h2>
+            {# loop.index => permet de voir l'index > loop.index is odd ? > est ce que l'index est impaire #}
+                {% for comment in post.comments %}
+                        <article class="{{ loop.index is odd ? 'bg-light' }} px-2 py-4 rounded">
+                            <h3 class="fs-6 text-muted">
+                                    Commente# {{loop.index }}~ par  <a href="mailto:{{ comment.email }}">{{ comment.name }}</a>
+                                    {{ comment.createdAt|date }}
+                            </h3>
+                                <p>
+                                        {{ comment.contenu|nl2br }}
+                                </p>
+                        </article>
+                {% endfor %}
+        </section>
 {% endblock %}
