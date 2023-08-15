@@ -6,6 +6,7 @@ use App\Entity\Post;
 use App\Form\CommentType;
 use App\Form\SharePostType;
 use App\Repository\PostRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,17 +43,28 @@ class PostController extends AbstractController
 //            'date' => Requirement::DATE_YMD,
             'slug'=> Requirement::ASCII_SLUG,
         ],
-        methods: ['GET'],
+        methods: ['GET', 'POST'],
     )]
 //    #[Entity('post',expr: 'repository.findOneByPublishedDateAnSlug(date, slug)')]
-    public function show(Request $request,Post $post): Response
+    public function show(Request $request,  EntityManagerInterface $entityManager  ,Post $post): Response
     {
         $commentForm = $this->createForm(CommentType::class);
 
         $commentForm->handleRequest($request);
 
     if($commentForm->isSubmitted() && $commentForm->isValid()){
-        dd($comment = $commentForm->getData());
+
+       $comment = $commentForm->getData();
+        $comment->setPost($post);
+
+        $entityManager->persist($comment);
+        $entityManager->flush();
+
+        $this->addFlash('success', "Commentaire ajoute avec succes!");
+
+        return $this->redirectToRoute('app_post_show', ['slug'=> $post->getSlug()]);
+
+       //        dd($comment = $commentForm->getData());
     }
 //        $post = $this->postRepository->findOneByPublishedDateAnSlug($date,$slug);
 //
