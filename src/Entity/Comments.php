@@ -6,6 +6,7 @@ use App\Entity\Traits\Timestampable;
 use App\Repository\CommentsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints AS Assert;
 
 #[ORM\Entity(repositoryClass: CommentsRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -20,12 +21,18 @@ class Comments
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(['min'=>3, 'max'=>50])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank]
+    #[Assert\Length(['min'=>5, 'max'=>250])]
     private ?string $contenu = null;
 
     #[ORM\Column]
