@@ -154,4 +154,11 @@ public function removeComment(Comments $comment): static
 
     return $this;
 }
+    public function __toString(): string
+    {
+
+//        return '#'. $this->getId() .'-'. $this->getTitre();
+        return sprintf('#%d %s', $this->getId(), $this->getTitre() );
+    }
+
 }

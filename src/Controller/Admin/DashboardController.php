@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Comments;
 use App\Entity\Post;
 use App\Entity\Utilisateur;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -38,6 +39,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToUrl('Visiter le site Web public', 'fa fa-home', '/');
         yield MenuItem::section('Blog', );
          yield MenuItem::linkToCrud('Posts', 'fa fa-file-text', Post::class);
+         yield MenuItem::linkToCrud('Commentaires', 'fa fa-comment', Comments::class);
 
 
         yield MenuItem::section('Utilisateurs', );
