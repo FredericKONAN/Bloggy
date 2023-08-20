@@ -8,7 +8,9 @@
             <a href="{{ path('app_post_show',{ slug: post.slug } ) }}"><h1> {{ post.titre }}</h1></a>
             <p>
                 {% if post.tags is defined and post.tags is not null %}
-                       Tag: {{ post.tags|join('/') }}
+                       {% if post.tags|length >0 %}
+                           Tag: {{ post.tags|join('/') }}
+                       {% endif %}
                 {% endif %}
             </p>
             <h5 class="text-muted">
