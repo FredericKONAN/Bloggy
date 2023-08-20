@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Comments;
+use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,20 +41,16 @@ class CommentsRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Comments[] Returns an array of Comments objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Comments[] Returns an array of Comments objects
+     */
+    public static function createIsActiveCriteria(): Criteria
+    {
+       return $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->eq('isActive', true))
+            ->orderBy(['createdAt' => 'ASC'])
+           ;
+    }
 
 //    public function findOneBySomeField($value): ?Comments
 //    {

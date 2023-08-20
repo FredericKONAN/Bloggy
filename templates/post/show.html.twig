@@ -18,9 +18,9 @@
         <hr>
 
         <section>
-              <h2>{{ post.comments|length }} commentaires</h2>
+              <h2>{{ comments|length }} commentaires</h2>
             {# loop.index => permet de voir l'index > loop.index is odd ? > est ce que l'index est impaire #}
-                {% for comment in post.comments %}
+                {% for comment in comments %}
                         <article class="{{ loop.index is odd ? 'bg-light' }} px-2 py-4 rounded">
                             <h3 class="fs-6 text-muted">
                                     Commente#{{loop.index }}~ par  <a href="mailto:{{ comment.email }}">{{ comment.name }}</a>

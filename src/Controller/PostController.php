@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\CommentType;
 use App\Form\SharePostType;
+use App\Repository\CommentsRepository;
 use App\Repository\PostRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Requirement\Requirement;
 
 class PostController extends AbstractController
@@ -46,8 +45,17 @@ class PostController extends AbstractController
         methods: ['GET', 'POST'],
     )]
 //    #[Entity('post',expr: 'repository.findOneByPublishedDateAnSlug(date, slug)')]
-    public function show(Request $request,  EntityManagerInterface $entityManager  ,Post $post): Response
+    public function show(Request $request,  CommentsRepository $commentsRepo  ,Post $post): Response
     {
+
+//        $criteria = Criteria::create()
+//            ->andWhere(Criteria::expr()->eq('isActive', true))
+//            ->orderBy(['createdAt' => 'ASC'])
+//        ;
+//        $comments =$post->getComments()->matching($criteria);
+
+        $comments = $post->getActiveComments($post);
+
         $commentForm = $this->createForm(CommentType::class);
 
         $commentForm->handleRequest($request);
@@ -57,8 +65,7 @@ class PostController extends AbstractController
        $comment = $commentForm->getData();
         $comment->setPost($post);
 
-        $entityManager->persist($comment);
-        $entityManager->flush();
+        $commentsRepo->save($comment, flush: true);
 
         $this->addFlash('success', "Commentaire ajoute avec succes!");
 
@@ -71,7 +78,7 @@ class PostController extends AbstractController
 //        if (is_null($post)){
 //            throw $this->createNotFoundException('Post not found');
 //        }
-        return $this->render('post/show.html.twig', compact('post', 'commentForm'));
+        return $this->render('post/show.html.twig', compact('post', 'comments', 'commentForm'));
     }
 
     #[Route(
