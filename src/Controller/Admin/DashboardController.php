@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Comments;
 use App\Entity\Post;
+use App\Entity\Tag;
 use App\Entity\Utilisateur;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -40,6 +41,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Blog', );
          yield MenuItem::linkToCrud('Posts', 'fa fa-file-text', Post::class);
          yield MenuItem::linkToCrud('Commentaires', 'fa fa-comment', Comments::class);
+         yield MenuItem::linkToCrud('Tags', 'fa fa-tag', Tag::class);
 
 
         yield MenuItem::section('Utilisateurs', );
