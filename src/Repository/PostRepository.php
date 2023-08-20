@@ -46,6 +46,8 @@ class PostRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
                 ->andWhere( 'p.publishedAt IS NOT NULL')
+                ->leftJoin('p.tags', 't')
+                ->addSelect('t')
                 ->orderBy('p.publishedAt', 'DESC')
                 ->getQuery()
             ;
