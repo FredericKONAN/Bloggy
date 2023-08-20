@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Comments;
 use App\Entity\Post;
+use App\Entity\Tag;
 use App\Entity\Utilisateur;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -48,7 +49,15 @@ class AppFixtures extends Fixture
             $post->setAuthor($faker->boolean(50) ? $user:$admin);
             $manager->persist($post);
 
-            for ($j = 1; $j <= $faker->numberBetween(1,5); $j++) {
+            for ($j = 1; $j <= $faker->numberBetween(1,4); $j++) {
+                $tag = new Tag();
+
+                $tag->setName($faker->word());
+                $post->addTag($tag);
+                $manager->persist($tag);
+            }
+
+            for ($k = 1; $k <= $faker->numberBetween(1,5); $k++) {
                 $comment = new Comments;
 
                 $comment->setName($faker->name());
