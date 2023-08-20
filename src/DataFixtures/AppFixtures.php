@@ -49,11 +49,11 @@ class AppFixtures extends Fixture
             $post->setAuthor($faker->boolean(50) ? $user:$admin);
             $manager->persist($post);
 
-            for ($j = 1; $j <= $faker->numberBetween(1,4); $j++) {
+            for ($j = 1; $j < $faker->numberBetween(1,4); $j++) {
                 $tag = new Tag();
 
                 $tag->setName($faker->word());
-                $post->addTag($tag);
+                $tag->addPost($post);
                 $manager->persist($tag);
             }
 
