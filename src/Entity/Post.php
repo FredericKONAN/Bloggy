@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Traits\Timestampable;
+use App\Repository\CommentsRepository;
 use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -154,6 +155,12 @@ public function removeComment(Comments $comment): static
 
     return $this;
 }
+
+    public  function getActiveComments():Collection
+    {
+        return $this->getComments()->matching(CommentsRepository::createIsActiveCriteria());
+    }
+
     public function __toString(): string
     {
 
