@@ -35,6 +35,15 @@ class AppFixtures extends Fixture
         $admin->setPassword($this->passWOrdHasher->hashPassword($admin, 'secret'));
         $manager->persist($admin);
 
+        //On ajout les tags dans un tableau a ce niveau
+        $tags = [];
+        for ($j = 1; $j <= 10; $j++) {
+            $tag = new Tag();
+            $tag->setName($faker->unique()->word());
+            $manager->persist($tag);
+            $tags [] = $tag;
+        }
+
         // create 10 articles! Bam!
         for ($i = 1; $i <= 10; $i++) {
             $post = new Post;
@@ -47,15 +56,12 @@ class AppFixtures extends Fixture
                     : null
                 );
             $post->setAuthor($faker->boolean(50) ? $user:$admin);
-            $manager->persist($post);
 
-            for ($j = 1; $j < $faker->numberBetween(1,4); $j++) {
-                $tag = new Tag();
-
-                $tag->setName($faker->unique()->word());
-                $tag->addPost($post);
-                $manager->persist($tag);
+            foreach($faker->randomElements($tags, 3) as $tag) {
+                $post->addTag($tag);
             }
+
+            $manager->persist($post);
 
             for ($k = 1; $k <= $faker->numberBetween(1,5); $k++) {
                 $comment = new Comments;
