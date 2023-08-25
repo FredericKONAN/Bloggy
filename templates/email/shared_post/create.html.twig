@@ -3,8 +3,8 @@
 
 <p>
     Lis l'article a l'adress suivante:
-    <a href=" {{ url('app_post_show', post.getPathParams()) }}">
-        {{ url('app_post_show', post.getPathParams()) }}
+    <a href=" {{ url('app_post_show',{id: post.id, slug: post.slug }) }}">
+        {{ url('app_post_show', {id: post.id, slug: post.slug }) }}
     </a>
 </p>
 

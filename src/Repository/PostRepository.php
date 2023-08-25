@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Post;
+use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -42,15 +43,23 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
-    public function getAllPublishedOrderedQuery(): Query
+    public function getAllPublishedOrderedQuery(?Tag $tag): Query
     {
-        return $this->createQueryBuilder('p')
-                ->andWhere( 'p.publishedAt IS NOT NULL')
-                ->leftJoin('p.tags', 't')
+        $queryBuilder =  $this->createQueryBuilder('p')
                 ->addSelect('t')
-                ->orderBy('p.publishedAt', 'DESC')
-                ->getQuery()
-            ;
+                ->leftJoin('p.tags', 't')
+                ->andWhere( 'p.publishedAt IS NOT NULL')
+                ->orderBy('p.publishedAt', 'DESC');
+
+
+            if($tag){
+                $queryBuilder->andWhere(':tag MEMBER OF p.tags')
+                             ->setParameter('tag', $tag)
+                ;
+            }
+
+               return $queryBuilder->getQuery();
+
 //        $criteria = (new Criteria)
 //            ->andWhere(Criteria::expr()->neq('publishedAt', null))
 //            ->orderBy(['publishedAt'=> 'DESC'])
