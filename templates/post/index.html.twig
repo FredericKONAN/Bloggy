@@ -3,13 +3,24 @@
 {% block title %}Blog{% endblock %}
 
 {% block body %}
+        {% if tagName %}
+            <h2 class="mb-4 display-6">Article filtre avec "{{ tagName }}"</h2>
+        {% endif %}
+
     {% for post in pagination %}
+
         <article class="mb-5">
             <a href="{{ path('app_post_show',{ slug: post.slug } ) }}"><h1> {{ post.titre }}</h1></a>
             <p>
                 {% if post.tags is defined and post.tags is not null %}
                        {% if post.tags|length >0 %}
-                           Tag: {{ post.tags|join('/') }}
+                           Tag:
+                           {% for tag in post.tags %}
+{#                               {{ dump(tag.slug) }}#}
+                               <a href="{{ path('app_post_by_tag', { slug: tag.slug }) }}">
+                                 {{ tag.name }}
+                               </a>{% if not loop.last %}/{% endif %}
+                           {% endfor %}
                        {% endif %}
                 {% endif %}
             </p>
