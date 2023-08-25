@@ -49,7 +49,10 @@ class PostRepository extends ServiceEntityRepository
                 ->addSelect('t')
                 ->leftJoin('p.tags', 't')
                 ->andWhere( 'p.publishedAt IS NOT NULL')
-                ->orderBy('p.publishedAt', 'DESC');
+                ->andWhere( 'p.publishedAt <= :now')
+                ->orderBy('p.publishedAt', 'DESC')
+                ->setParameter('now', new \DateTimeImmutable())
+        ;
 
 
             if($tag){
