@@ -17,9 +17,10 @@ class PublishedFilter extends SQLFilter
         } else{
 
             return  sprintf(
-                '%s.published_at IS NOT NULL AND %s.published_at <= CURRENT_TIMESTAMP',
+                '%s.published_at IS NOT NULL AND %s.published_at <= %s',
                 $targetTableAlias,
-                $targetTableAlias
+                $targetTableAlias,
+                $this->getParameter('current_datetime')
             );
         }
     }

@@ -12,7 +12,7 @@ doctrine:
         filters:
             published_filter:
                 class: App\Doctrine\Filters\PublishedFilter
-                enabled: true
+#                enabled: true
 
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
