@@ -65,12 +65,14 @@ class PostController extends AbstractController
 //    #[Entity('post',expr: 'repository.findOneByPublishedDateAnSlug(date, slug)')]
     public function show(Request $request,  CommentsRepository $commentsRepo  ,Post $post): Response
     {
-
 //        $criteria = Criteria::create()
 //            ->andWhere(Criteria::expr()->eq('isActive', true))
 //            ->orderBy(['createdAt' => 'ASC'])
 //        ;
 //        $comments =$post->getComments()->matching($criteria);
+
+        $similarPostByTag = $this->postRepository->findSimilar($post);
+
 
         $comments = $post->getActiveComments($post);
 
@@ -96,7 +98,7 @@ class PostController extends AbstractController
 //        if (is_null($post)){
 //            throw $this->createNotFoundException('Post not found');
 //        }
-        return $this->render('post/show.html.twig', compact('post', 'comments', 'commentForm'));
+        return $this->render('post/show.html.twig', compact('post', 'comments', 'commentForm', 'similarPostByTag'));
     }
 
 //    #[Route(
