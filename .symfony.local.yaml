@@ -1,0 +1,4 @@
+proxy:
+    domains:
+        - bloggy
+        - testBloggy

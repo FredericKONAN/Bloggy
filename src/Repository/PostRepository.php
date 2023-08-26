@@ -48,10 +48,10 @@ class PostRepository extends ServiceEntityRepository
         $queryBuilder =  $this->createQueryBuilder('p')
                 ->addSelect('t')
                 ->leftJoin('p.tags', 't')
-                ->andWhere( 'p.publishedAt IS NOT NULL')
-                ->andWhere( 'p.publishedAt <= :now')
+//                ->andWhere( 'p.publishedAt IS NOT NULL')
+//                ->andWhere( 'p.publishedAt <= :now')
                 ->orderBy('p.publishedAt', 'DESC')
-                ->setParameter('now', new \DateTimeImmutable())
+//                ->setParameter('now', new \DateTimeImmutable())
         ;
 
 
@@ -72,10 +72,10 @@ class PostRepository extends ServiceEntityRepository
 
     }
 
-    public function findOneByPublishedDateAnSlug(string $date, string $slug)
+    public function findOneByPublishedDateAnSlug(string $date, string $slug): ?Post
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.publishedAt IS NOT NULL')
+//            ->andWhere('p.publishedAt IS NOT NULL')
             ->andWhere('DATE(p.publishedAt) = :date')
             ->andWhere('p.slug = :slug')
             ->setParameters([
