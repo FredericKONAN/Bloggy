@@ -13,8 +13,12 @@ class DoctrineSubscriber implements EventSubscriberInterface
 
     public function onKernelRequest(RequestEvent $event): void
     {
-        $filter = $this->entityManager->getFilters()->enable('published_filter');
-        $filter->setParameter('current_datetime', new \DateTimeImmutable());
+        //Ceci permet de recuperer la route courante dd($event->getRequest()->attributes->get('_route'));
+        if('admin' !== $event->getRequest()->attributes->get('_route')){
+//            $this->entityManager->getFilters()->disable('published_filter');
+            $filter = $this->entityManager->getFilters()->enable('published_filter');
+            $filter->setParameter('current_datetime', new \DateTimeImmutable());
+        }
     }
 
     public static function getSubscribedEvents(): array

@@ -16,13 +16,13 @@ class EasyAdminEventSubscriber implements EventSubscriberInterface
     public function __construct(private EntityManagerInterface $entityManager,private UserPasswordHasherInterface $passwordHasher){}
 
 
-    public function onKernelRequest(RequestEvent $event)
-    {
-//       Ceci permet de recuperer la route courante dd($event->getRequest()->attributes->get('_route'));
-        if('admin' === $event->getRequest()->attributes->get('_route')){
-            $this->entityManager->getFilters()->disable('published_filter');
-        }
-    }
+//    public function onKernelRequest(RequestEvent $event)
+//    {
+////       Ceci permet de recuperer la route courante dd($event->getRequest()->attributes->get('_route'));
+//        if('admin' === $event->getRequest()->attributes->get('_route')){
+//            $this->entityManager->getFilters()->disable('published_filter');
+//        }
+//    }
 
     public function updatePassword(BeforeEntityPersistedEvent|BeforeEntityUpdatedEvent  $event): void
     {
@@ -46,7 +46,7 @@ class EasyAdminEventSubscriber implements EventSubscriberInterface
         return [
             BeforeEntityPersistedEvent::class => 'updatePassword',
             BeforeEntityUpdatedEvent::class => 'updatePassword',
-            KernelEvents::REQUEST => 'onKernelRequest'
+//            KernelEvents::REQUEST => 'onKernelRequest'
         ];
     }
 
