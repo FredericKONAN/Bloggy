@@ -1,22 +1,15 @@
-<h2>what's new ?</h2>
+<h2>Quoi de neuf ?</h2>
+
 <p>
-    un oh !  {{ total_posts() }} posts witten so far.
+     Oh !  {{ total_posts() }} articles écrits jusqu'à présent.
 </p>
 
 <div>
     <h3>Latest Post</h3>
-    {% for post in latest_posts() %}
-        <li>
-            <a href="{{ path('app_post_show', { slug: post.slug}) }}">{{ post.titre }}</a>
-        </li>
-    {% endfor %}
+    {{ include('post/_list_post.html.twig', {posts: latest_posts(5) }) }}
 </div>
 
-<p>
+<div>
     <h3>Mosts commented posts</h3>
-{% for comment in most_commented_post(5) %}
-    <li>
-        <a href="{{ path('app_post_show', { slug: comment.slug}) }}">{{ comment.titre }}</a>
-    </li>
-{% endfor %}
-</p>
+    {{ include('post/_list_post.html.twig', {posts: most_commented_post(5)}) }}
+</div>

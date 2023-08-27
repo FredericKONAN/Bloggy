@@ -1,0 +1,7 @@
+<ul>
+    {% for post in posts %}
+        <li>
+            <a href="{{ path('app_post_show', { slug: post.slug}) }}">{{ post.titre }}</a>
+        </li>
+    {% endfor %}
+</ul>
