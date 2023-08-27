@@ -23,4 +23,9 @@ class AppExtensionRuntime implements RuntimeExtensionInterface
     {
         return $this->postRepo->findMostCommented($maxResult);
     }
+
+    public function shasum256($val): string
+    {
+        return hash('sha256',$val);
+    }
 }

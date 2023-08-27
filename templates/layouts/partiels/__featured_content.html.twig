@@ -1,15 +1,33 @@
 <h2>Quoi de neuf ?</h2>
+{% cache 'total_post' %}
+    <p>
+         Oh !  {{ total_posts() }} articles écrits jusqu'à présent.
+    </p>
+{% endcache %}
 
-<p>
-     Oh !  {{ total_posts() }} articles écrits jusqu'à présent.
-</p>
+{% with { latest_posts: latest_posts(5)} %}
+    <div>
+        <h3>Derniers articles</h3>
+        {% cache "latest_post;" ~ latest_posts|map(p=>p.id)|join(',')|shasum256 %}
+            {{ include('post/_list_post.html.twig', {posts: latest_posts(5) }) }}
+        {% endcache %}
+    </div>
+{% endwith %}
 
-<div>
-    <h3>Latest Post</h3>
-    {{ include('post/_list_post.html.twig', {posts: latest_posts(5) }) }}
-</div>
 
-<div>
-    <h3>Mosts commented posts</h3>
-    {{ include('post/_list_post.html.twig', {posts: most_commented_post(5)}) }}
-</div>
+{% with { most_commented_post: most_commented_post(5)} %}
+    <div>
+        <h3>Articles les plus commentés</h3>
+        {% cache "mosts_commented_posts;" ~ most_commented_post|map(p=>p.id)|join(',')|shasum256 %}
+            {{ include('post/_list_post.html.twig', {posts: most_commented_post(5) }) }}
+        {% endcache %}
+    </div>
+{% endwith %}
+
+
+{#{% cache 'mosts_commented_posts' %}#}
+{#    <div>#}
+{#        <h3>Mosts commented posts</h3>#}
+{#        {{ include('post/_list_post.html.twig', {posts: most_commented_post(5)}) }}#}
+{#    </div>#}
+{#{% endcache %}#}
