@@ -87,9 +87,6 @@ class PostRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-    //     * @return Post[] Returns an array of Post objects
-    //     */
     public function findSimilar(Post $post, int $mxResult = 4): array
     {
         //Récupérer les articles
@@ -119,6 +116,22 @@ class PostRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    public function findMostCommented( int $mxResult): array
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.comments', 'c')
+            ->addSelect('COUNT(c) AS HIDDEN numberOfComment')
+            ->andWhere('c.isActive = true')
+            ->groupBy('p')
+            ->orderBy('numberOfComment', 'DESC')
+            ->addOrderBy('p.publishedAt', 'DESC')
+            ->setMaxResults($mxResult)
+            ->getQuery()
+            ->getResult()
+            ;
+
     }
 
 //    /**
