@@ -14,12 +14,12 @@ class AppExtensionRuntime implements RuntimeExtensionInterface
         return $this->postRepo->count([]);
     }
 
-    public function latestPosts($maxResult=5): array
-    {
-        return $this->postRepo->findBy([], ['publishedAt'=> 'DESC'], $maxResult);
-    }
+//    public function latestPosts(int $maxResult=5): array
+//    {
+//        return $this->postRepo->findBy([], ['publishedAt'=> 'DESC'], $maxResult);
+//    }
 
-    public function mostCommentedPosts($maxResult): array
+    public function mostCommentedPosts(int $maxResult = 5): array
     {
         return $this->postRepo->findMostCommented($maxResult);
     }
