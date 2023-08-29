@@ -101,6 +101,24 @@ class PostController extends AbstractController
         return $this->render('post/show.html.twig', compact('post', 'comments', 'commentForm', 'similarPostByTag'));
     }
 
+
+    #[Route(
+        '/post/feature-content',
+        name: 'app_post_featured_content', methods: ['GET'], priority: 10
+    )]
+    public function featuredContent(PostRepository $postRepo, int $maxResult = 5): Response
+    {
+
+        $totalPosts= $postRepo->count([]);
+        $latestPosts= $postRepo->findBy([], ['publishedAt' => 'DESC'], $maxResult);
+        $mostCommentedPosts= $postRepo->findMostCommented($maxResult);
+
+//        dd($totalPost, $latestPost, $mostCommentedPost);
+
+      return  $this->render('post/__featured_content.html.twig', compact('totalPosts', 'latestPosts', 'mostCommentedPosts'));
+
+    }
+
 //    #[Route(
 //        '/post/{slug}/partage',
 //        name: 'app_post_share',

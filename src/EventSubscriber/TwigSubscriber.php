@@ -51,7 +51,7 @@ class TwigSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::CONTROLLER => 'onKernelController',
+//            KernelEvents::CONTROLLER => 'onKernelController',
         ];
     }
 }

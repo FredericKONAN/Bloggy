@@ -25,7 +25,10 @@
                     {% block body %}{% endblock %}
                 </main>
                 <aside class="col-md-4">
-                    {% include('layouts/partiels/__featured_content.html.twig') %}
+                    {{ render(controller(
+                        'App\\Controller\\PostController::featuredContent', { 'maxResults': 2 }
+                    )) }}
+{#                    {% include('post/__featured_content.html.twig') %}#}
                 </aside>
             </div>
             <footer class="my-5">
