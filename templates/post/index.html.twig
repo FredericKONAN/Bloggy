@@ -36,8 +36,11 @@
         </article>
     {% endfor %}
 
-    <div class="navigation">
-        {{ knp_pagination_render(pagination) }}
+    <div class="navigation Page navigation example">
+        <ul class="flex items-center -space-x-px h-8 text-sm">
+                {{ knp_pagination_render(pagination) }}
+        </ul>
     </div>
+
 
 {% endblock %}
