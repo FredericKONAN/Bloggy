@@ -10,3 +10,6 @@ import './styles/app.css';
 
 
 import './bootstrap'
+
+//On charge bootstrap js
+import 'bootstrap'
