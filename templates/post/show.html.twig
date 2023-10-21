@@ -16,24 +16,18 @@
 
         <a href="{{ path('app_post_share', {id: post.id, slug: post.slug }) }}">Partage ce article</a>
         <hr>
-
-        <section>
-              <h2>{{ comments|length }} commentaires</h2>
-            {# loop.index => permet de voir l'index > loop.index is odd ? > est ce que l'index est impaire #}
+        <div id="comment-list">
+            <section>
+                <h2 id="comments-count">{{ comments|length }} commentaires</h2>
+                {# loop.index => permet de voir l'index > loop.index is odd ? > est ce que l'index est impaire #}
                 {% for comment in comments %}
-                        <article class="{{ loop.index is odd ? 'bg-light' }} px-2 py-4 rounded">
-                            <h3 class="fs-6 text-muted">
-                                    Commente#{{loop.index }}~ par  <a href="mailto:{{ comment.email }}">{{ comment.name }}</a>
-                                    {{ comment.createdAt|date }}
-                            </h3>
-                                <p>
-                                        {{ comment.contenu|nl2br }}
-                                </p>
-                        </article>
-                    {% else %}
+                {% include 'comments/_comment.html.twig' with { comment, index: loop.index } %}
+                {% else %}
                     <p>Pas de commentaire</p>
                 {% endfor %}
-        </section>
+            </section>
+        </div>
+
         <section class="mt-5">
             <h2>Article smilaire</h2>
             {% for post in similarPostByTag %}
@@ -44,14 +38,17 @@
             </p>
             {% endfor %}
         </section>
+    <turbo-frame id="new-comment-form">
         <section class="mt-5">
             <div class="row">
                 <div class="col-md-8">
                     {{ form_start(commentForm) }}
-                        {{ form_widget(commentForm) }}
-                        <button type="submit" class="btn btn-primary w-100">Commentaire</button>
+                    {{ form_widget(commentForm) }}
+                    <button type="submit" class="btn btn-primary w-100" formnovalidate>Commentaire</button>
                     {{ form_end(commentForm) }}
                 </div>
             </div>
         </section>
+    </turbo-frame>
+
 {% endblock %}

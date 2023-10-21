@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
+use Symfony\UX\Turbo\TurboBundle;
 
 class PostController extends AbstractController
 {
@@ -86,6 +87,12 @@ class PostController extends AbstractController
         $comment->setPost($post);
 
         $commentsRepo->save($comment, flush: true);
+
+        if(TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()){
+
+            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+            return $this->render('comments/success.stream.html.twig', compact('comment'));
+        }
 
         $this->addFlash('success', "Commentaire ajoute avec succes!");
 
