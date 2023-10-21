@@ -28,4 +28,15 @@ class AppExtensionRuntime implements RuntimeExtensionInterface
     {
         return hash('sha256',$val);
     }
+
+    public function pluralize(int $quantity, string $singular, ?string $plural= null): string
+    {
+
+        $plural ??= $singular . 's';
+
+        $singularOrPlural = $quantity === 1 ? $singular : $plural;
+
+        return " $quantity $singularOrPlural";
+    }
+
 }
