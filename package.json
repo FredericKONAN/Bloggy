@@ -1,18 +1,29 @@
 {
-  "name": "bloggy",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "directories": {
-    "test": "tests"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@symfony/webpack-encore": "^4.4.0"
-  }
+    "devDependencies": {
+        "@babel/core": "^7.17.0",
+        "@babel/preset-env": "^7.16.0",
+        "@hotwired/stimulus": "^3.0.0",
+        "@hotwired/turbo": "^7.0.1",
+        "@symfony/stimulus-bridge": "^3.2.0",
+        "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/assets",
+        "@symfony/webpack-encore": "^4.0.0",
+        "bootstrap": "^5.3.2",
+        "core-js": "^3.23.0",
+        "html-webpack-plugin": "^5.5.3",
+        "jquery": "^3.7.1",
+        "regenerator-runtime": "^0.13.9",
+        "webpack": "^5.89.0",
+        "webpack-cli": "^4.10.0",
+        "webpack-dev-middleware": "^6.1.1",
+        "webpack-dev-server": "^4.15.1",
+        "webpack-notifier": "^1.15.0"
+    },
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress"
+    }
 }

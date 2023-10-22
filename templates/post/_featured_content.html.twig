@@ -1,0 +1,85 @@
+
+<h2>🧁 Quoi de neuf ?</h2>
+
+<p>
+    Uh oh! {{ totalPosts }} articles écrits jusqu'à présent..
+</p>
+
+<div>
+    <h4>✨ Derniers articles</h4>
+    {{ include('post/_list_post.html.twig', { posts: latestPosts }) }}
+</div>
+
+<div>
+    <h4>💬 Articles les plus commentés</h4>
+    {{ include('post/_list_post.html.twig', { posts: mostCommentedPosts }) }}
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{##<h2>Quoi de neuf ?</h2>#}
+{#{% cache 'total_post' %}#}
+{#    <p>#}
+{#         Oh !  {{ totalPost }} articles écrits jusqu'à présent.#}
+{#    </p>#}
+{#{% endcache %}#}
+
+{#{% with { latest_posts: latest_posts(5)} %}#}
+{#    <div>#}
+{#        <h3>Derniers articles</h3>#}
+{#        {% cache "latest_post;" ~ latest_posts|map(p=>p.id)|join(',')|shasum256 %}#}
+{#            {{ include('post/_list_post.html.twig', { latestPost }) }}#}
+{#        {% endcache %}#}
+{#    </div>#}
+{#{% endwith %}#}
+
+
+{#{% with { most_commented_post: most_commented_post(5)} %}#}
+{#    <div>#}
+{#        <h3>Articles les plus commentés</h3>#}
+{#        {% cache "mosts_commented_posts;" ~ most_commented_post|map(p=>p.id)|join(',')|shasum256 %}#}
+{#            {{ include('post/_list_post.html.twig', {posts: most_commented_post(5) }) }}#}
+{#        {% endcache %}#}
+{#    </div>#}
+{#{% endwith %}#}
+
+
+{#{% cache 'mosts_commented_posts' %}#}
+{#    <div>#}
+{#        <h3>Mosts commented posts</h3>#}
+{#        {{ include('post/_list_post.html.twig', { mostCommentedPost }) }}#}
+{#    </div>#}
+{#{% endcache %}#}

@@ -7,3 +7,23 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
+
+
+import './bootstrap'
+
+//On charge bootstrap js
+import 'bootstrap'
+
+
+
+
+function placeFooter() {
+    if( $(document.body).height() < $(window).height() ) {
+        $("footer").css({position: "fixed", bottom:"0px"});
+    } else {
+        $("footer").css({position: ""});
+    }
+}
+
+placeFooter();
+

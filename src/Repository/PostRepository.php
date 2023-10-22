@@ -48,8 +48,11 @@ class PostRepository extends ServiceEntityRepository
         $queryBuilder =  $this->createQueryBuilder('p')
                 ->addSelect('t')
                 ->leftJoin('p.tags', 't')
-                ->andWhere( 'p.publishedAt IS NOT NULL')
-                ->orderBy('p.publishedAt', 'DESC');
+//                ->andWhere( 'p.publishedAt IS NOT NULL')
+//                ->andWhere( 'p.publishedAt <= :now')
+                ->orderBy('p.publishedAt', 'DESC')
+//                ->setParameter('now', new \DateTimeImmutable())
+        ;
 
 
             if($tag){
@@ -69,10 +72,10 @@ class PostRepository extends ServiceEntityRepository
 
     }
 
-    public function findOneByPublishedDateAnSlug(string $date, string $slug)
+    public function findOneByPublishedDateAnSlug(string $date, string $slug): ?Post
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.publishedAt IS NOT NULL')
+//            ->andWhere('p.publishedAt IS NOT NULL')
             ->andWhere('DATE(p.publishedAt) = :date')
             ->andWhere('p.slug = :slug')
             ->setParameters([
@@ -82,6 +85,53 @@ class PostRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
+    }
+
+    public function findSimilar(Post $post, int $mxResult = 4): array
+    {
+        //Récupérer les articles
+        // ayant des tags en commun
+        //avec l'article passe en argument
+        //ordonnée de l'article ayant plus de tag en commun
+        // a l'article ayant le moin  de tag en commun.
+        // dans le cas ou deux articles on le même nombre de tags
+        // en commun, alors ils devront être ordonné du plus récent
+        // au plus ancien
+        // On retournera au maximum 4 articles
+        //PS: pourquoi pas la valeur "4" devra etre customisable.
+
+        return $this->createQueryBuilder('p')
+            ->join('p.tags', 't')
+            ->addSelect('COUNT(t.id) AS HIDDEN numberOfTag')
+            ->andWhere('t IN (:tags)')
+            ->andWhere('p != :post') // on exclut l'article courant
+            ->setParameters([
+                'tags' => $post->getTags(),
+                'post' => $post
+            ])
+            ->groupBy('p.id')
+            ->orderBy('numberOfTag', 'DESC')
+            ->addOrderBy('p.publishedAt', 'DESC')
+            ->setMaxResults($mxResult)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findMostCommented( int $mxResult): array
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.comments', 'c')
+            ->addSelect('COUNT(c) AS HIDDEN numberOfComment')
+            ->andWhere('c.isActive = true')
+            ->groupBy('p')
+            ->orderBy('numberOfComment', 'DESC')
+            ->addOrderBy('p.publishedAt', 'DESC')
+            ->setMaxResults($mxResult)
+            ->getQuery()
+            ->getResult()
+            ;
+
     }
 
 //    /**

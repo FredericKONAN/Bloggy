@@ -13,12 +13,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
+use Symfony\UX\Turbo\TurboBundle;
 
 class PostController extends AbstractController
 {
     public function __construct(private PostRepository $postRepository){}
 
-    #[Route('/', name: 'app_accueil', methods: ['GET'])]
+    #[Route('/', name: 'app_home', methods: ['GET'])]
     #[Route(
         '/tags/{slug}', name: 'app_post_by_tag',
         requirements: [
@@ -65,16 +66,20 @@ class PostController extends AbstractController
 //    #[Entity('post',expr: 'repository.findOneByPublishedDateAnSlug(date, slug)')]
     public function show(Request $request,  CommentsRepository $commentsRepo  ,Post $post): Response
     {
-
 //        $criteria = Criteria::create()
 //            ->andWhere(Criteria::expr()->eq('isActive', true))
 //            ->orderBy(['createdAt' => 'ASC'])
 //        ;
 //        $comments =$post->getComments()->matching($criteria);
 
+        $similarPostByTag = $this->postRepository->findSimilar($post);
+
+
         $comments = $post->getActiveComments($post);
 
         $commentForm = $this->createForm(CommentType::class);
+
+        $emptyCommentForm = clone $commentForm;
 
         $commentForm->handleRequest($request);
 
@@ -84,6 +89,16 @@ class PostController extends AbstractController
         $comment->setPost($post);
 
         $commentsRepo->save($comment, flush: true);
+
+        if(TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()){
+
+            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+            return $this->render('comments/success.stream.html.twig', [
+                'comment' => $comment,
+                'commentCount'=> $comments->count() +1,
+                'commentForm'=> $emptyCommentForm,
+            ]);
+        }
 
         $this->addFlash('success', "Commentaire ajoute avec succes!");
 
@@ -96,8 +111,42 @@ class PostController extends AbstractController
 //        if (is_null($post)){
 //            throw $this->createNotFoundException('Post not found');
 //        }
-        return $this->render('post/show.html.twig', compact('post', 'comments', 'commentForm'));
+        return $this->render('post/show.html.twig', compact('post', 'comments', 'commentForm', 'similarPostByTag'));
     }
+
+
+#[Route('/posts/featured-content', name: 'app_posts_featured_content', methods: ['GET'], priority: 10)]
+public function featuredContent(PostRepository $postRepository, ?int $maxResults = 5): Response
+{
+    $totalPosts = $postRepository->count([]);
+    $latestPosts = $postRepository->findBy([], ['publishedAt' => 'DESC'], $maxResults);
+    $mostCommentedPosts = $postRepository->findMostCommented($maxResults);
+
+    return $this->render(
+        'post/_featured_content.html.twig',
+        compact('totalPosts', 'latestPosts', 'mostCommentedPosts')
+    )->setSharedMaxAge(50);
+}
+
+
+
+
+//    #[Route(
+//        '/post/feature-content',
+//        name: 'app_post_featured_content', methods: ['GET'], priority: 10
+//    )]
+//    public function featuredContent(PostRepository $postRepo, int $maxResult = 5): Response
+//    {
+//
+//        $totalPosts= $postRepo->count([]);
+//        $latestPosts= $postRepo->findBy([], ['publishedAt' => 'DESC'], $maxResult);
+//        $mostCommentedPosts= $postRepo->findMostCommented($maxResult);
+//
+////        dd($totalPost, $latestPost, $mostCommentedPost);
+//
+//      return  $this->render('post/__featured_content.html.twig', compact('totalPosts', 'latestPosts', 'mostCommentedPosts'));
+//
+//    }
 
 //    #[Route(
 //        '/post/{slug}/partage',

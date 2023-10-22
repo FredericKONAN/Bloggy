@@ -9,6 +9,10 @@ doctrine:
         dql:
             datetime_functions:
                 date: DoctrineExtensions\Query\Postgresql\Date
+        filters:
+            published_filter:
+                class: App\Doctrine\Filters\PublishedFilter
+#                enabled: true
 
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
