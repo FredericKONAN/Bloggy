@@ -115,22 +115,38 @@ class PostController extends AbstractController
     }
 
 
-    #[Route(
-        '/post/feature-content',
-        name: 'app_post_featured_content', methods: ['GET'], priority: 10
-    )]
-    public function featuredContent(PostRepository $postRepo, int $maxResult = 5): Response
-    {
+#[Route('/posts/featured-content', name: 'app_posts_featured_content', methods: ['GET'], priority: 10)]
+public function featuredContent(PostRepository $postRepository, ?int $maxResults = 5): Response
+{
+    $totalPosts = $postRepository->count([]);
+    $latestPosts = $postRepository->findBy([], ['publishedAt' => 'DESC'], $maxResults);
+    $mostCommentedPosts = $postRepository->findMostCommented($maxResults);
 
-        $totalPosts= $postRepo->count([]);
-        $latestPosts= $postRepo->findBy([], ['publishedAt' => 'DESC'], $maxResult);
-        $mostCommentedPosts= $postRepo->findMostCommented($maxResult);
+    return $this->render(
+        'post/_featured_content.html.twig',
+        compact('totalPosts', 'latestPosts', 'mostCommentedPosts')
+    )->setSharedMaxAge(50);
+}
 
-//        dd($totalPost, $latestPost, $mostCommentedPost);
 
-      return  $this->render('post/__featured_content.html.twig', compact('totalPosts', 'latestPosts', 'mostCommentedPosts'));
 
-    }
+
+//    #[Route(
+//        '/post/feature-content',
+//        name: 'app_post_featured_content', methods: ['GET'], priority: 10
+//    )]
+//    public function featuredContent(PostRepository $postRepo, int $maxResult = 5): Response
+//    {
+//
+//        $totalPosts= $postRepo->count([]);
+//        $latestPosts= $postRepo->findBy([], ['publishedAt' => 'DESC'], $maxResult);
+//        $mostCommentedPosts= $postRepo->findMostCommented($maxResult);
+//
+////        dd($totalPost, $latestPost, $mostCommentedPost);
+//
+//      return  $this->render('post/__featured_content.html.twig', compact('totalPosts', 'latestPosts', 'mostCommentedPosts'));
+//
+//    }
 
 //    #[Route(
 //        '/post/{slug}/partage',

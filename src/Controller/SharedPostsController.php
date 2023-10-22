@@ -77,7 +77,7 @@ class SharedPostsController extends AbstractController
 
             $this->addFlash('success', "l'article a ete partage avec succes avec votre amie.");
 
-            return $this->redirectToRoute('app_accueil');
+            return $this->redirectToRoute('app_home');
 
         }
 

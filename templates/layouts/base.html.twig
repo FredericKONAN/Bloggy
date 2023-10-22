@@ -31,8 +31,8 @@
 
         <aside class="col-md-4">
             {{ render_esi(controller(
-                'App\\Controller\\PostsController::featuredContent',
-                { 'maxResults': 3 }
+                'App\\Controller\\PostController::featuredContent',
+                { 'maxResults': 5 }
             )) }}
         </aside>
     </div>
