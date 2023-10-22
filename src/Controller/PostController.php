@@ -19,7 +19,7 @@ class PostController extends AbstractController
 {
     public function __construct(private PostRepository $postRepository){}
 
-    #[Route('/', name: 'app_accueil', methods: ['GET'])]
+    #[Route('/', name: 'app_home', methods: ['GET'])]
     #[Route(
         '/tags/{slug}', name: 'app_post_by_tag',
         requirements: [
